@@ -85,69 +85,69 @@ const translations: Record<string, Translation> = {
     'language.english': 'English',
     'language.chinese': 'Chinese',
   },
-  zh: {
-    // App titles
-    'app.title': '英语听写',
-    'app.subtitle': '练习英语听力技能',
-    'app.description': '适合学生、学习者和语言爱好者使用。',
+//   zh: {
+//     // App titles
+//     'app.title': '英语听写',
+//     'app.subtitle': '练习英语听力技能',
+//     'app.description': '适合学生、学习者和语言爱好者使用。',
 
-    // Navigation
-    'nav.home': '首页',
-    'nav.setup': '设置',
-    'nav.results': '结果',
+//     // Navigation
+//     'nav.home': '首页',
+//     'nav.setup': '设置',
+//     'nav.results': '结果',
 
-    // Home page
-    'home.title': '欢迎使用中文听写',
-    'home.quickTest': '快速测试',
-    'home.startTest': '开始测试',
-    'home.noWords': '请先在设置页面添加一些词汇。',
-    'home.speechNotSupported': '此设备不支持语音合成。',
+//     // Home page
+//     'home.title': '欢迎使用中文听写',
+//     'home.quickTest': '快速测试',
+//     'home.startTest': '开始测试',
+//     'home.noWords': '请先在设置页面添加一些词汇。',
+//     'home.speechNotSupported': '此设备不支持语音合成。',
 
-    // Setup page
-    'setup.title': '设置 - 中文听写',
-    'setup.description': '配置您的词汇表和中文听写练习测试设置。',
-    'setup.wordList': '词汇表',
-    'setup.testSettings': '测试设置',
-    'setup.speechSettings': '语音设置',
-    'setup.wordCount': '每次测试词汇数量',
-    'setup.pauseDuration': '暂停时长',
-    'setup.voice': '语音',
-    'setup.speechRate': '语速',
-    'setup.speechPitch': '音调',
-    'setup.saveWords': '保存词汇',
-    'setup.clearWords': '清空所有词汇',
-    'setup.loadSample': '加载示例词汇',
-    'setup.testVoice': '测试语音',
-    'setup.testing': '测试中...',
+//     // Setup page
+//     'setup.title': '设置 - 中文听写',
+//     'setup.description': '配置您的词汇表和中文听写练习测试设置。',
+//     'setup.wordList': '词汇表',
+//     'setup.testSettings': '测试设置',
+//     'setup.speechSettings': '语音设置',
+//     'setup.wordCount': '每次测试词汇数量',
+//     'setup.pauseDuration': '暂停时长',
+//     'setup.voice': '语音',
+//     'setup.speechRate': '语速',
+//     'setup.speechPitch': '音调',
+//     'setup.saveWords': '保存词汇',
+//     'setup.clearWords': '清空所有词汇',
+//     'setup.loadSample': '加载示例词汇',
+//     'setup.testVoice': '测试语音',
+//     'setup.testing': '测试中...',
 
-    // Speech support
-    'speech.supported': '支持',
-    'speech.notSupported': '不支持',
-    'speech.voicesAvailable': '个语音可用',
-    'speech.unavailable': '语音合成不可用',
+//     // Speech support
+//     'speech.supported': '支持',
+//     'speech.notSupported': '不支持',
+//     'speech.voicesAvailable': '个语音可用',
+//     'speech.unavailable': '语音合成不可用',
 
-    // Test states
-    'test.inProgress': '测试进行中',
-    'test.progress': '进度：',
-    'test.stop': '停止测试',
-    'test.pause': '暂停',
-    'test.resume': '继续',
-    'test.completed': '测试完成！',
+//     // Test states
+//     'test.inProgress': '测试进行中',
+//     'test.progress': '进度：',
+//     'test.stop': '停止测试',
+//     'test.pause': '暂停',
+//     'test.resume': '继续',
+//     'test.completed': '测试完成！',
 
-    // Messages
-    'msg.wordsSaved': '个词汇保存成功！',
-    'msg.wordsCleared': '所有词汇已清空。',
-    'msg.voiceTestComplete': '语音测试完成！',
-    'msg.voiceTestFailed': '语音测试失败：',
-    'msg.selectVoiceFirst': '请先选择一个语音。',
-    'msg.confirmClear': '您确定要清空所有词汇吗？',
-    'msg.enterWords': '请至少输入一个词汇。',
+//     // Messages
+//     'msg.wordsSaved': '个词汇保存成功！',
+//     'msg.wordsCleared': '所有词汇已清空。',
+//     'msg.voiceTestComplete': '语音测试完成！',
+//     'msg.voiceTestFailed': '语音测试失败：',
+//     'msg.selectVoiceFirst': '请先选择一个语音。',
+//     'msg.confirmClear': '您确定要清空所有词汇吗？',
+//     'msg.enterWords': '请至少输入一个词汇。',
 
-    // Language
-    'language.selector': '语言',
-    'language.english': 'English',
-    'language.chinese': '中文',
-  },
+//     // Language
+//     'language.selector': '语言',
+//     'language.english': 'English',
+//     'language.chinese': '中文',
+//   },
 };
 
 function createLanguageStore() {
