@@ -3,11 +3,14 @@
 	import { onMount } from 'svelte';
 	import { wordStore } from '$lib/stores/wordStore';
 	import { settingsStore } from '$lib/stores/settingsStore';
+	import { languageStore } from '$lib/stores/languageStore';
+	import LanguageSelector from '$lib/components/LanguageSelector.svelte';
 
 	onMount(() => {
 		// Load stored data when app starts
 		wordStore.load();
 		settingsStore.load();
+		languageStore.load();
 	});
 </script>
 
@@ -21,16 +24,19 @@
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
 						</svg>
 					</div>
-					<h1 class="text-xl font-semibold text-gray-900">English Dictation</h1>
+					<h1 class="text-xl font-semibold text-gray-900">{languageStore.translate('app.title')}</h1>
 				</div>
 				
-				<nav class="hidden sm:flex space-x-4">
+				<nav class="hidden sm:flex items-center space-x-4">
 					<a href="/" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-						Home
+						{languageStore.translate('nav.home')}
 					</a>
 					<a href="/setup" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-						Setup
+						{languageStore.translate('nav.setup')}
 					</a>
+					<div class="ml-4">
+						<LanguageSelector />
+					</div>
 				</nav>
 			</div>
 		</div>
@@ -43,7 +49,7 @@
 	<footer class="bg-white border-t mt-16">
 		<div class="max-w-4xl mx-auto px-4 py-6">
 			<div class="text-center text-sm text-gray-500">
-				<p>English Dictation App - Practice English listening skills</p>
+				<p>{languageStore.translate('app.title')} - {languageStore.translate('app.subtitle')}</p>
 				<p class="mt-1">Works on web and mobile devices</p>
 			</div>
 		</div>

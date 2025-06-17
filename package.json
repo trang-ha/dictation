@@ -16,15 +16,16 @@
     "cap:sync": "cap sync",
     "cap:open": "cap open"
   },
-
   "dependencies": {
     "@capacitor/android": "^5.0.0",
     "@capacitor/app": "^5.0.0",
+    "@capacitor/cli": "^5.0.0",
     "@capacitor/core": "^5.0.0",
     "@capacitor/haptics": "^5.0.0",
     "@capacitor/keyboard": "^5.0.0",
     "@capacitor/status-bar": "^5.0.0",
-    "@capacitor/cli": "^5.0.0"
+    "hanzi-writer": "^3.7.2",
+    "pinyin": "^4.0.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^2.0.3",
@@ -47,4 +48,4 @@
     "vite": "^4.4.2"
   },
   "type": "module"
-} 
+}

@@ -2,11 +2,28 @@
 	import { onMount } from 'svelte';
 	import { wordStore } from '$lib/stores/wordStore';
 	import { settingsStore } from '$lib/stores/settingsStore';
+	import { languageStore } from '$lib/stores/languageStore';
 	import { speechService } from '$lib/services/SpeechService';
+	import type { MultiLanguageWordData } from '$lib/stores/wordStore';
+	import type { TestSettings } from '$lib/stores/settingsStore';
+	import type { VoiceOption } from '$lib/services/SpeechService';
+	import ChineseWordDisplay from '$lib/components/ChineseWordDisplay.svelte';
 	
-	let wordData = { words: [], lastUpdated: new Date() };
-	let settings = { wordCount: 10, pauseDuration: 3, selectedVoice: '', speechRate: 1.0, speechPitch: 1.0, lastUsed: new Date() };
-	let availableVoices = [];
+	let wordData: MultiLanguageWordData = {
+		en: { words: [], lastUpdated: new Date(), language: 'en' },
+		zh: { words: [], lastUpdated: new Date(), language: 'zh' },
+		currentLanguage: 'en'
+	};
+	let settings: TestSettings = {
+		wordCount: 10,
+		pauseDuration: 3,
+		selectedVoice: '',
+		speechRate: 1.0,
+		speechPitch: 1.0,
+		language: 'en',
+		lastUsed: new Date()
+	};
+	let availableVoices: VoiceOption[] = [];
 	let wordInput = '';
 	let isTestingVoice = false;
 	let saveMessage = '';
@@ -15,9 +32,23 @@
 	// Subscribe to stores
 	$: wordStore.subscribe(value => {
 		wordData = value;
-		wordInput = value.words.join('\n');
+		const currentWords = getCurrentWordData().words;
+		wordInput = currentWords.join('\n');
 	});
-	$: settingsStore.subscribe(value => settings = value);
+	$: settingsStore.subscribe(value => {
+		settings = value;
+		// Update available voices when language changes
+		if (speechService.isServiceSupported()) {
+			setTimeout(() => {
+				availableVoices = speechService.getAvailableVoices(value.language);
+			}, 100);
+		}
+	});
+	
+	// Get current language word data
+	function getCurrentWordData() {
+		return settings.language === 'zh' ? wordData.zh : wordData.en;
+	}
 
 	onMount(() => {
 		// Load available voices
@@ -48,16 +79,17 @@
 				return;
 			}
 
-			wordStore.saveWords(words);
+			wordStore.saveWords(words, settings.language);
 			showSaveMessage(`Saved ${words.length} words successfully!`, 'success');
 		} catch (error) {
-			showSaveMessage('Failed to save words: ' + error.message, 'error');
+			const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+			showSaveMessage('Failed to save words: ' + errorMessage, 'error');
 		}
 	}
 
 	function clearWords() {
 		if (confirm('Are you sure you want to clear all words?')) {
-			wordStore.clear();
+			wordStore.clear(settings.language);
 			wordInput = '';
 			showSaveMessage('All words cleared.', 'success');
 		}
@@ -158,7 +190,7 @@
 			<div class="flex items-center justify-between mb-4">
 				<h2 class="text-xl font-semibold text-gray-900">Word List</h2>
 				<div class="text-sm text-gray-500">
-					{wordData.words.length} words
+					{getCurrentWordData().words.length} words
 				</div>
 			</div>
 
@@ -193,12 +225,12 @@
 					</button>
 				</div>
 
-				{#if wordData.words.length > 0}
+				{#if getCurrentWordData().words.length > 0}
 					<div class="mt-4">
 						<h3 class="text-sm font-medium text-gray-700 mb-2">Current Words:</h3>
 						<div class="max-h-32 overflow-y-auto bg-gray-50 rounded-lg p-3">
 							<div class="flex flex-wrap gap-1">
-								{#each wordData.words as word, index}
+								{#each getCurrentWordData().words as word, index}
 									<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
 										{word}
 									</span>

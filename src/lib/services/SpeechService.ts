@@ -15,7 +15,7 @@ export class SpeechService {
       this.synth = window.speechSynthesis;
       this.isSupported = true;
       this.loadVoices();
-      
+
       // Handle voice loading for different browsers
       if (speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = () => this.loadVoices();
@@ -31,21 +31,24 @@ export class SpeechService {
     return this.isSupported;
   }
 
-  public getAvailableVoices(): VoiceOption[] {
+  public getAvailableVoices(languageFilter?: string): VoiceOption[] {
     if (!this.isSupported) return [];
-    
+
     // Ensure voices are loaded
     if (this.voices.length === 0) {
       this.voices = this.synth.getVoices();
     }
 
+    // Default to English if no filter specified
+    const filterLang = languageFilter || 'en';
+
     return this.voices
-      .filter(voice => voice.lang.startsWith('en')) // English voices only
-      .map(voice => ({
+      .filter((voice) => voice.lang.startsWith(filterLang))
+      .map((voice) => ({
         name: voice.name,
         lang: voice.lang,
         localService: voice.localService,
-        default: voice.default
+        default: voice.default,
       }))
       .sort((a, b) => {
         // Prioritize local voices and default voices
@@ -57,29 +60,33 @@ export class SpeechService {
       });
   }
 
-  public getPreferredVoice(): VoiceOption | null {
-    const voices = this.getAvailableVoices();
+  public getPreferredVoice(languageFilter?: string): VoiceOption | null {
+    const voices = this.getAvailableVoices(languageFilter);
     if (voices.length === 0) return null;
 
-    // Try to find a natural-sounding English voice
-    const preferred = voices.find(voice => 
-      voice.localService && 
-      (voice.name.toLowerCase().includes('natural') || 
-       voice.name.toLowerCase().includes('enhanced') ||
-       voice.name.toLowerCase().includes('premium'))
-    ) || voices.find(voice => voice.localService) || voices[0];
+    // Try to find a natural-sounding voice for the specified language
+    const preferred =
+      voices.find(
+        (voice) =>
+          voice.localService &&
+          (voice.name.toLowerCase().includes('natural') ||
+            voice.name.toLowerCase().includes('enhanced') ||
+            voice.name.toLowerCase().includes('premium')),
+      ) ||
+      voices.find((voice) => voice.localService) ||
+      voices[0];
 
     return preferred;
   }
 
   public async speak(
-    text: string, 
+    text: string,
     options: {
       voiceName?: string;
       rate?: number;
       pitch?: number;
       volume?: number;
-    } = {}
+    } = {},
   ): Promise<void> {
     if (!this.isSupported) {
       throw new Error('Speech synthesis not supported');
@@ -90,10 +97,10 @@ export class SpeechService {
 
     return new Promise((resolve, reject) => {
       const utterance = new SpeechSynthesisUtterance(text);
-      
+
       // Find the specified voice or use default
       if (options.voiceName) {
-        const voice = this.voices.find(v => v.name === options.voiceName);
+        const voice = this.voices.find((v) => v.name === options.voiceName);
         if (voice) {
           utterance.voice = voice;
         }
@@ -101,7 +108,7 @@ export class SpeechService {
         // Use preferred voice if no voice specified
         const preferredVoice = this.getPreferredVoice();
         if (preferredVoice) {
-          const voice = this.voices.find(v => v.name === preferredVoice.name);
+          const voice = this.voices.find((v) => v.name === preferredVoice.name);
           if (voice) {
             utterance.voice = voice;
           }
@@ -115,8 +122,9 @@ export class SpeechService {
 
       // Set up event handlers
       utterance.onend = () => resolve();
-      utterance.onerror = (event) => reject(new Error(`Speech error: ${event.error}`));
-      
+      utterance.onerror = (event) =>
+        reject(new Error(`Speech error: ${event.error}`));
+
       // Start speaking
       this.synth.speak(utterance);
     });
@@ -148,10 +156,25 @@ export class SpeechService {
     return this.isSupported && this.synth.paused;
   }
 
-  // Test speech with a sample word
-  public async testVoice(voiceName: string): Promise<void> {
-    await this.speak('Hello, this is a test.', { voiceName });
+  // Test speech with a sample word (language-specific)
+  public async testVoice(
+    voiceName: string,
+    languageCode?: string,
+  ): Promise<void> {
+    const testText =
+      languageCode === 'zh' ? '你好，这是一个测试。' : 'Hello, this is a test.';
+    await this.speak(testText, { voiceName });
+  }
+
+  // Get voices for a specific language
+  public getVoicesByLanguage(languageCode: string): VoiceOption[] {
+    return this.getAvailableVoices(languageCode);
+  }
+
+  // Check if language is supported
+  public isLanguageSupported(languageCode: string): boolean {
+    return this.getVoicesByLanguage(languageCode).length > 0;
   }
 }
 
-export const speechService = new SpeechService(); 
+export const speechService = new SpeechService();
