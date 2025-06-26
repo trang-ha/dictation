@@ -283,8 +283,8 @@
 								word={testProgress.currentWord} 
 								size="large"
 								showPinyin={true}
-								showStrokeOrder={false}
-								interactive={false}
+								showStrokeOrder={true}
+								interactive={true}
 							/>
 						{:else}
 							<div class="text-3xl font-bold text-blue-900 mb-2">
