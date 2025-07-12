@@ -486,3 +486,27 @@ Team
 
 #### Delete an incident
 - The deleted incidents will be removed from the map.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

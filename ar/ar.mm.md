@@ -1,0 +1,33 @@
+# AR
+- modules
+  - system management
+    - sidebar
+      - Users:
+        - sub-items:
+          - Users
+            - button: Create at the top
+            - list with Edit and Delete button on each row
+            - Details:
+              - full name
+              - username 
+              - created at
+              - team (Hyperlink to Team Details), role in team
+          - Roles
+            - button: Create at the top
+            - list with Edit and Delete button on each row
+      - Teams
+        - button: Create at the top
+        - list with Edit and Delete button on each row
+        - Details:
+          - Team name
+          - Members & their role
+      - Incidents
+        - sidebar
+          - sub-items:
+            - tracking
+              - gis map:
+                - how:
+                  - 
+
+    - asset management
+
